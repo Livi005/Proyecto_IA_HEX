@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEX - Juega contra la IA</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>HEX</h1>
+            <p class="subtitle">Juega contra la IA (MCTS)</p>
+        </header>
+
+        <div class="info-panel">
+            <div class="player-info player1">
+                <span class="dot dot-p1"></span>
+                <span><strong>Tú</strong> (Jugador 1)</span>
+                <span class="goal">Conecta <b>arriba ↔ abajo</b></span>
+            </div>
+            <div class="status" id="status">Tu turno</div>
+            <div class="player-info player2">
+                <span class="dot dot-p2"></span>
+                <span><strong>IA</strong> (Jugador 2)</span>
+                <span class="goal">Conecta <b>izquierda ↔ derecha</b></span>
+            </div>
+        </div>
+
+        <div class="board-wrapper">
+            <div class="edge edge-top"></div>
+            <div class="edge edge-left"></div>
+            <svg id="board" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet"></svg>
+            <div class="edge edge-right"></div>
+            <div class="edge edge-bottom"></div>
+        </div>
+
+        <div class="controls">
+            <button id="reset-btn">Reiniciar partida</button>
+        </div>
+
+        <footer>
+            <p>Tablero 7×7 · Regla del swap desactivada</p>
+        </footer>
+    </div>
+
+    <script>
+        const SIZE = 7;
+        const HEX_SIZE = 35;          // Radio del hexágono en píxeles
+        const SVG_NS = "http://www.w3.org/2000/svg";
+
+        const boardEl = document.getElementById("board");
+        const statusEl = document.getElementById("status");
+
+        // ---------- Utilidades de coordenadas hexagonales ----------
+        // Layout "odd-r" horizontal: filas impares desplazadas a la derecha.
+        function hexToPixel(row, col) {
+            const w = Math.sqrt(3) * HEX_SIZE;
+            const h = 2 * HEX_SIZE;
+            const x = w * (col + 0.5 * (row % 2)) + 50;
+            const y = h * 0.75 * row + 50;
+            return { x, y };
+        }
+
+        function hexCorners(cx, cy, size) {
+            const corners = [];
+            for (let i = 0; i < 6; i++) {
+                const angle = Math.PI / 180 * (60 * i - 30);
+                corners.push([
+                    cx + size * Math.cos(angle),
+                    cy + size * Math.sin(angle),
+                ]);
+            }
+            return corners;
+        }
+
+        function pointsToStr(points) {
+            return points.map(p => p.join(",")).join(" ");
+        }
+
+        // ---------- Estado local ----------
+        let state = {
+            board: [],
+            size: SIZE,
+            winner: null,
+        };
+
+        // ---------- Render ----------
+        function render() {
+            boardEl.innerHTML = "";
+
+            for (let r = 0; r < SIZE; r++) {
+                for (let c = 0; c < SIZE; c++) {
+                    const { x, y } = hexToPixel(r, c);
+                    const corners = hexCorners(x, y, HEX_SIZE - 1);
+
+                    const polygon = document.createElementNS(SVG_NS, "polygon");
+                    polygon.setAttribute("points", pointsToStr(corners));
+                    polygon.setAttribute("class", "hex");
+
+                    const val = state.board[r] ? state.board[r][c] : 0;
+                    if (val === 0) polygon.classList.add("hex-empty");
+                    else if (val === 1) polygon.classList.add("hex-p1");
+                    else if (val === 2) polygon.classList.add("hex-p2");
+
+                    if (val === 0 && !state.winner) {
+                        polygon.style.cursor = "pointer";
+                        polygon.addEventListener("click", () => playMove(r, c));
+                        polygon.addEventListener("mouseenter", () => polygon.classList.add("hex-hover"));
+                        polygon.addEventListener("mouseleave", () => polygon.classList.remove("hex-hover"));
+                    }
+
+                    boardEl.appendChild(polygon);
+
+                    // Dibujamos una ficha dentro si la celda está ocupada
+                    if (val !== 0) {
+                        const circle = document.createElementNS(SVG_NS, "circle");
+                        circle.setAttribute("cx", x);
+                        circle.setAttribute("cy", y);
+                        circle.setAttribute("r", HEX_SIZE * 0.55);
+                        circle.setAttribute("class", val === 1 ? "piece piece-p1" : "piece piece-p2");
+                        circle.style.pointerEvents = "none";
+                        boardEl.appendChild(circle);
+                    }
+                }
+            }
+        }
+
+        // ---------- API ----------
+        async function fetchState() {
+            const res = await fetch("/state");
+            const data = await res.json();
+            state = data;
+            render();
+            updateStatus();
+        }
+
+        async function playMove(r, c) {
+            if (state.winner) return;
+            statusEl.textContent = "La IA está pensando...";
+            statusEl.classList.add("thinking");
+
+            const res = await fetch("/move", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ row: r, col: c }),
+            });
+            const data = await res.json();
+
+            await fetchState();
+
+            statusEl.classList.remove("thinking");
+            updateStatus();
+        }
+
+        function updateStatus() {
+            if (state.winner === 1) {
+                statusEl.textContent = "🎉 ¡Ganaste!";
+                statusEl.className = "status win";
+            } else if (state.winner === 2) {
+                statusEl.textContent = "💀 La IA ganó.";
+                statusEl.className = "status lose";
+            } else {
+                statusEl.textContent = "Tu turno";
+                statusEl.className = "status";
+            }
+        }
+
+        async function resetGame() {
+            await fetch("/reset", { method: "POST" });
+            await fetchState();
+        }
+
+        document.getElementById("reset-btn").addEventListener("click", resetGame);
+
+        // Inicializar
+        fetchState();
+    </script>
+</body>
+</html>

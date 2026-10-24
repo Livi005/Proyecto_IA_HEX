@@ -1,0 +1,31 @@
+# Entorno virtual
+venv/
+env/
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Resultados generados
+experiments/results/*.csv
+experiments/results/*.png
+docs/figs/*.png
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Sistema
+.DS_Store
+Thumbs.db

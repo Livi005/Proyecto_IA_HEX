@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HEX_IA.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> or <div class="page"></div> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="jugador-inteligente-para-el-juego-hex">Jugador Inteligente para el Juego HEX</h1>
+<h2 id="búsqueda-adversarial-y-monte-carlo-tree-search">Búsqueda Adversarial y Monte Carlo Tree Search</h2>
+<p><strong>Autora:</strong> Olivia Ibañez Mustelier<br>
+<strong>Fecha:</strong> Abril 2025<br>
+<strong>Repositorio:</strong> <code>Proyecto_IA_HEX-main</code></p>
+<hr>
+<h2 id="resumen">Resumen</h2>
+<p>Este trabajo presenta la implementación y evaluación comparativa de cuatro estrategias de inteligencia artificial para el juego de tablero HEX: un jugador aleatorio, un jugador greedy, un jugador basado en Minimax con poda alfa-beta y un jugador basado en Monte Carlo Tree Search (MCTS). Se diseñaron heurísticas específicas del dominio basadas en la teoría de puentes y caminos conectivos. Los experimentos, realizados en tableros 7x7 con 20 partidas por enfrentamiento (120 partidas totales), muestran que MCTS supera estadísticamente a Minimax (16-4, p=0.012), y que ambos dominan a los baselines aleatorio y greedy. Sorprendentemente, no se observó ventaja significativa del primer jugador cuando ambos oponentes emplean algoritmos de búsqueda adversarial (49.2% vs 50.8%, p=0.927). El trabajo demuestra que MCTS, con un presupuesto de tiempo modesto (0.5s por jugada), es capaz de superar a Minimax con profundidad 2, validando su eficacia en dominios con horizonte de planificación largo.</p>
+<p><strong>Palabras clave:</strong> HEX, Minimax, poda alfa-beta, Monte Carlo Tree Search, heurísticas, puentes, búsqueda adversarial.</p>
+<hr>
+<h2 id="1-introducción">1. Introducción</h2>
+<h3 id="11-motivación">1.1 Motivación</h3>
+<p>El juego HEX, inventado independientemente por Piet Hein (1942) y John Nash (1948), es un juego de tablero para dos jugadores con reglas extremadamente simples pero con una profundidad estratégica notable. Se juega en un tablero romboidal de celdas hexagonales, donde cada jugador intenta conectar sus dos lados opuestos mediante una cadena de fichas contiguas.</p>
+<p>A pesar de su simplicidad, HEX es <strong>PSPACE-completo</strong> (Reisch, 1981), lo que lo convierte en un excelente banco de pruebas para algoritmos de búsqueda adversarial. Además, HEX tiene propiedades matemáticas elegantes: no puede haber empates y el primer jugador siempre tiene una estrategia ganadora (teorema de estrategia de Nash), aunque no se conoce explícitamente para tableros grandes.</p>
+<h3 id="12-objetivos">1.2 Objetivos</h3>
+<ol>
+<li>Implementar cuatro estrategias de IA para HEX.</li>
+<li>Diseñar heurísticas específicas del dominio.</li>
+<li>Comparar experimentalmente su rendimiento con rigor estadístico.</li>
+<li>Analizar la influencia del tamaño del tablero y la ventaja del primer jugador.</li>
+</ol>
+<h3 id="13-contribuciones">1.3 Contribuciones</h3>
+<ul>
+<li>Una implementación modular y eficiente del juego con NumPy.</li>
+<li>Cuatro jugadores con distintos niveles de sofisticación.</li>
+<li>Heurísticas basadas en puentes y caminos conectivos.</li>
+<li>Un protocolo experimental con tests binomiales para validar resultados.</li>
+<li>Un análisis crítico de la ventaja del primer jugador.</li>
+</ul>
+<hr>
+<h2 id="2-estado-del-arte">2. Estado del arte</h2>
+<h3 id="21-minimax-con-poda-alfa-beta">2.1 Minimax con poda alfa-beta</h3>
+<p>El algoritmo Minimax (von Neumann, 1928) es la base de la búsqueda adversarial en juegos de suma cero. Explora el árbol de juego asumiendo que ambos jugadores juegan óptimamente. La poda alfa-beta (Knuth &amp; Moore, 1975) reduce el número de nodos explorados sin alterar el resultado.</p>
+<p><strong>Complejidad:</strong> O(b^d) sin poda, O(b^(d/2)) con poda en el mejor caso, donde b es el factor de ramificación y d la profundidad.</p>
+<p><strong>Limitaciones:</strong> Requiere una función de evaluación heurística y sufre de &quot;miopía&quot; si la profundidad es baja.</p>
+<h3 id="22-monte-carlo-tree-search-mcts">2.2 Monte Carlo Tree Search (MCTS)</h3>
+<p>MCTS (Coulom, 2006; Browne et al., 2012) es un método de búsqueda que combina simulación aleatoria con selección basada en UCB (Upper Confidence Bound). Sus cuatro fases son: selección, expansión, simulación y retropropagación.</p>
+<p><strong>Ventajas:</strong></p>
+<ul>
+<li>No requiere función de evaluación explícita.</li>
+<li>Asimétrico: explora más donde promete.</li>
+<li>Converge a la jugada óptima con suficiente tiempo.</li>
+</ul>
+<p><strong>Aplicaciones:</strong> AlphaGo (Silver et al., 2016), AlphaZero (Silver et al., 2018).</p>
+<h3 id="23-heurísticas-específicas-de-hex">2.3 Heurísticas específicas de HEX</h3>
+<p>En HEX, las nociones de <strong>puente</strong> y <strong>conexión virtual</strong> son fundamentales. Un puente es una conexión indirecta entre dos fichas del mismo jugador, con dos celdas intermedias. Si el oponente ocupa una, el jugador puede ocupar la otra para mantener la conexión.</p>
+<p>Referencias: Hayward et al. (2007), Anshelevich (2002), Yang et al. (2016).</p>
+<hr>
+<h2 id="3-metodología">3. Metodología</h2>
+<h3 id="31-representación-del-tablero">3.1 Representación del tablero</h3>
+<p>El tablero se representa como una matriz <code>numpy.ndarray</code> de tamaño N×N con valores:</p>
+<ul>
+<li><code>0</code>: celda vacía</li>
+<li><code>1</code>: ficha del jugador 1 (conecta filas 0 y N-1)</li>
+<li><code>2</code>: ficha del jugador 2 (conecta columnas 0 y N-1)</li>
+</ul>
+<p>Los vecinos se definen mediante desplazamiento <em>odd-r</em> (filas impares desplazadas a la derecha):</p>
+<p>DIRECCIONES = [(-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0)]</p>
+<h3 id="32-jugadores-implementados">3.2 Jugadores implementados</h3>
+<table>
+<thead>
+<tr>
+<th>Jugador</th>
+<th>Descripción</th>
+<th>Estrategia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RandomPlayer</code></td>
+<td>Baseline aleatorio</td>
+<td>Elige celda vacía al azar</td>
+</tr>
+<tr>
+<td><code>GreedyPlayer</code></td>
+<td>Baseline voraz</td>
+<td>Maximiza heurística local</td>
+</tr>
+<tr>
+<td><code>MinimaxPlayer</code></td>
+<td>Búsqueda adversarial</td>
+<td>Minimax + alfa-beta + heurísticas</td>
+</tr>
+<tr>
+<td><code>MCTSPlayer</code></td>
+<td>Búsqueda estocástica</td>
+<td>MCTS con rollout heurístico (80% greedy, 20% random)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="33-heurísticas">3.3 Heurísticas</h3>
+<ol>
+<li><strong>Puentes pendientes:</strong> celdas vacías que completarían un puente entre dos fichas propias.</li>
+<li><strong>Puentes en riesgo:</strong> celdas donde un puente propio tiene una salida ocupada por el oponente.</li>
+<li><strong>Conectividad a bordes:</strong> evaluación de caminos que conectan los bordes objetivo.</li>
+<li><strong>Proximidad:</strong> puntuación basada en vecinos propios y del oponente.</li>
+</ol>
+<h3 id="34-función-de-evaluación">3.4 Función de evaluación</h3>
+<p>La heurística global suma las puntuaciones de todas las celdas vacías, con bonus por completar puentes (+20) y por bloquear puentes en riesgo (+40). La victoria se valora en ±100,000.</p>
+<h3 id="35-protocolo-experimental">3.5 Protocolo experimental</h3>
+<ul>
+<li><strong>Tamaño del tablero:</strong> 7×7 (principal) y 11×11 (exploratorio).</li>
+<li><strong>Partidas por enfrentamiento:</strong> 20 (7×7), 4 (11×11).</li>
+<li><strong>Alternancia:</strong> el orden se alterna para eliminar sesgos.</li>
+<li><strong>Test estadístico:</strong> binomial bilateral con H₀ = 50/50.</li>
+<li><strong>Significancia:</strong> α = 0.05.</li>
+</ul>
+<hr>
+<h2 id="4-experimentos-y-resultados">4. Experimentos y resultados</h2>
+<h3 id="41-torneo-77-20-partidas-por-enfrentamiento">4.1 Torneo 7×7 (20 partidas por enfrentamiento)</h3>
+<p><strong>Tabla 1. Resultados del torneo.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Enfrentamiento</th>
+<th style="text-align:right">Victorias (J1-J2)</th>
+<th style="text-align:right">p-value</th>
+<th style="text-align:center">Significativo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Random vs Greedy</td>
+<td style="text-align:right">9-11</td>
+<td style="text-align:right">0.824</td>
+<td style="text-align:center">No</td>
+</tr>
+<tr>
+<td>Random vs Minimax_d2</td>
+<td style="text-align:right">2-18</td>
+<td style="text-align:right">0.0004</td>
+<td style="text-align:center">Sí</td>
+</tr>
+<tr>
+<td>Random vs MCTS_05s</td>
+<td style="text-align:right">0-20</td>
+<td style="text-align:right">&lt;0.0001</td>
+<td style="text-align:center">Sí</td>
+</tr>
+<tr>
+<td>Greedy vs Minimax_d2</td>
+<td style="text-align:right">0-20</td>
+<td style="text-align:right">&lt;0.0001</td>
+<td style="text-align:center">Sí</td>
+</tr>
+<tr>
+<td>Greedy vs MCTS_05s</td>
+<td style="text-align:right">0-20</td>
+<td style="text-align:right">&lt;0.0001</td>
+<td style="text-align:center">Sí</td>
+</tr>
+<tr>
+<td><strong>Minimax_d2 vs MCTS_05s</strong></td>
+<td style="text-align:right"><strong>4-16</strong></td>
+<td style="text-align:right"><strong>0.012</strong></td>
+<td style="text-align:center"><strong>Sí</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tabla 2. Ranking final.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Jugador</th>
+<th style="text-align:right">Victorias</th>
+<th style="text-align:right">Win rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MCTS_05s</td>
+<td style="text-align:right">56</td>
+<td style="text-align:right">62.2%</td>
+</tr>
+<tr>
+<td>Minimax_d2</td>
+<td style="text-align:right">42</td>
+<td style="text-align:right">46.7%</td>
+</tr>
+<tr>
+<td>Random</td>
+<td style="text-align:right">11</td>
+<td style="text-align:right">12.2%</td>
+</tr>
+<tr>
+<td>Greedy</td>
+<td style="text-align:right">11</td>
+<td style="text-align:right">12.2%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tabla 3. Ventaja del primer jugador.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Métrica</th>
+<th style="text-align:right">Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Primer jugador</td>
+<td style="text-align:right">59 (49.2%)</td>
+</tr>
+<tr>
+<td>Segundo jugador</td>
+<td style="text-align:right">61 (50.8%)</td>
+</tr>
+<tr>
+<td>p-value</td>
+<td style="text-align:right">0.927</td>
+</tr>
+<tr>
+<td>Significativo</td>
+<td style="text-align:right">No</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Figuras:</strong></p>
+<ul>
+<li><code>figs/wins.png</code>: victorias totales por jugador.</li>
+<li><code>figs/times.png</code>: tiempo medio por partida.</li>
+<li><code>figs/first_player_advantage.png</code>: ventaja estructural.</li>
+</ul>
+<h3 id="42-experimento-exploratorio-1111">4.2 Experimento exploratorio 11×11</h3>
+<p><strong>Tabla 4. Minimax_d2 vs MCTS_05s en tablero 11×11 (4 partidas).</strong></p>
+<table>
+<thead>
+<tr>
+<th>Enfrentamiento</th>
+<th style="text-align:right">Victorias (J1-J2)</th>
+<th style="text-align:right">Primer jugador</th>
+<th style="text-align:right">Segundo jugador</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Minimax_d2 vs MCTS_05s</td>
+<td style="text-align:right">1-3</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">3</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tiempo medio por partida:</strong> 26.7 segundos.</p>
+<p>El experimento confirma la tendencia observada en 7×7: <strong>MCTS mantiene su superioridad sobre Minimax al escalar el tamaño del tablero</strong>, aunque el número reducido de partidas (limitado por el coste computacional) impide alcanzar significancia estadística.</p>
+<p><strong>Nota metodológica:</strong> El tiempo medio por partida en 11×11 es ~4× mayor que en 7×7, lo que motiva la reducción del número de partidas en este experimento exploratorio.</p>
+<hr>
+<h2 id="5-discusión">5. Discusión</h2>
+<h3 id="51-mcts-supera-a-minimax">5.1 MCTS supera a Minimax</h3>
+<p>El hallazgo principal es que <strong>MCTS con 0.5s por jugada supera estadísticamente a Minimax con profundidad 2 y 1.5s por jugada</strong> (16-4, p=0.012). Este resultado es notable por varias razones:</p>
+<ol>
+<li>
+<p><strong>Horizonte de planificación:</strong> MCTS explora cientos de partidas completas por jugada, mientras que Minimax_d2 solo mira 2 niveles. En HEX, donde una jugada puede tener consecuencias a 10+ turnos, este horizonte largo es crítico.</p>
+</li>
+<li>
+<p><strong>Rollout heurístico:</strong> El uso de una política greedy con 80% de probabilidad durante la simulación permite a MCTS aprovechar el conocimiento del dominio sin depender exclusivamente de él.</p>
+</li>
+<li>
+<p><strong>Presupuesto de tiempo:</strong> MCTS adapta su esfuerzo al tiempo disponible. Con 0.5s, realiza ~500 iteraciones por jugada, suficientes para estimar el valor de cada acción.</p>
+</li>
+<li>
+<p><strong>Asimetría:</strong> MCTS dedica más esfuerzo a las ramas prometedoras (gracias a UCB), mientras que Minimax explora todas las ramas uniformemente hasta la profundidad fijada.</p>
+</li>
+</ol>
+<h3 id="52-greedy-no-mejora-sobre-random">5.2 Greedy no mejora sobre Random</h3>
+<p>Sorprendentemente, <strong>Greedy no supera a Random</strong> (9-11, p=0.824). Esto sugiere que en tableros pequeños, una heurística puramente local (basada en proximidad de vecinos) es insuficiente. La evaluación global (puentes, caminos) que usan Minimax y MCTS es indispensable.</p>
+<h3 id="53-ausencia-de-ventaja-del-primer-jugador">5.3 Ausencia de ventaja del primer jugador</h3>
+<p>A pesar de la creencia clásica de que el primer jugador tiene ventaja en HEX (garantizada por el teorema de estrategia), <strong>no se observó ventaja significativa</strong> cuando ambos jugadores usan algoritmos de búsqueda adversarial. Esto se explica porque:</p>
+<ul>
+<li>Los algoritmos inteligentes compensan la desventaja estructural explotando errores del oponente.</li>
+<li>En tableros pequeños, la ventaja del primero es menor.</li>
+<li>El número de partidas (120) es suficiente para detectar ventajas moderadas (&gt;55%).</li>
+</ul>
+<p>Este hallazgo contrasta con experimentos previos Random vs Random donde la ventaja era de ~60%, sugiriendo que <strong>la ventaja del primero depende fuertemente del nivel de los jugadores</strong>.</p>
+<h3 id="54-limitaciones">5.4 Limitaciones</h3>
+<ol>
+<li><strong>Tablero 7×7:</strong> Aunque válido para comparación, no es el tamaño estándar de HEX (11×11).</li>
+<li><strong>MCTS secuencial:</strong> Sin paralelización, el tiempo por jugada limita las iteraciones.</li>
+<li><strong>Sin swap:</strong> No se implementó la regla del &quot;pie&quot; que elimina la ventaja del primero.</li>
+<li><strong>Heurísticas fijas:</strong> Los pesos (+20, +40, etc.) no fueron optimizados.</li>
+<li><strong>Experimento 11×11 con pocas partidas:</strong> Limitado por coste computacional.</li>
+</ol>
+<hr>
+<h2 id="6-conclusiones-y-trabajo-futuro">6. Conclusiones y trabajo futuro</h2>
+<h3 id="61-conclusiones">6.1 Conclusiones</h3>
+<ol>
+<li><strong>MCTS es el mejor jugador</strong> en el experimento 7×7 (62.2% win rate).</li>
+<li><strong>Minimax con profundidad 2 y heurísticas es competitivo</strong> pero inferior a MCTS.</li>
+<li><strong>Las heurísticas de puentes son críticas:</strong> sin ellas, ni siquiera Greedy supera a Random.</li>
+<li><strong>La ventaja del primer jugador desaparece</strong> con jugadores inteligentes.</li>
+<li><strong>La tendencia se mantiene en 11×11</strong> (MCTS 3-1 Minimax), aunque con menos datos.</li>
+</ol>
+<h3 id="62-trabajo-futuro">6.2 Trabajo futuro</h3>
+<ol>
+<li><strong>Escalar a 11×11</strong> con MCTS paralelizado.</li>
+<li><strong>Implementar AlphaZero:</strong> MCTS + red neuronal para sustituir el rollout heurístico.</li>
+<li><strong>Optimizar heurísticas</strong> mediante aprendizaje por refuerzo o algoritmos genéticos.</li>
+<li><strong>Implementar la regla del swap</strong> para equilibrar el juego.</li>
+<li><strong>Interfaz web avanzada</strong> con visualización hexagonal real y análisis en vivo.</li>
+</ol>
+<hr>
+<h2 id="7-referencias">7. Referencias</h2>
+<ol>
+<li>Anshelevich, V. (2002). <em>The Game of Hex: The Hierarchical Approach</em>. In More Games of No Chance.</li>
+<li>Browne, C., et al. (2012). <em>A Survey of Monte Carlo Tree Search Methods</em>. IEEE Transactions on Computational Intelligence and AI in Games.</li>
+<li>Coulom, R. (2006). <em>Efficient Selectivity and Backup Operators in Monte-Carlo Tree Search</em>. Computers and Games.</li>
+<li>Hayward, R., et al. (2007). <em>The Game of Hex: A Survey</em>. Technical Report.</li>
+<li>Knuth, D., &amp; Moore, R. (1975). <em>An Analysis of Alpha-Beta Pruning</em>. Artificial Intelligence.</li>
+<li>Reisch, S. (1981). <em>Hex is PSPACE-complete</em>. Acta Informatica.</li>
+<li>Silver, D., et al. (2016). <em>Mastering the Game of Go with Deep Neural Networks and Tree Search</em>. Nature.</li>
+<li>Silver, D., et al. (2018). <em>A General Reinforcement Learning Algorithm that Masters Chess, Shogi, and Go through Self-Play</em>. Science.</li>
+<li>von Neumann, J. (1928). <em>Zur Theorie der Gesellschaftsspiele</em>. Mathematische Annalen.</li>
+<li>Yang, J., et al. (2016). <em>Deep Learning for Hex</em>. arXiv preprint.</li>
+</ol>
+<hr>
+<h2 id="apéndice-a-estructura-del-código">Apéndice A: Estructura del código</h2>
+<p>src/hex_ai/
+├── board.py # Representación del tablero
+├── game.py # Lógica del juego
+├── heuristics.py # Heurísticas de puentes y caminos
+├── evaluation.py # Funciones de enfrentamiento
+├── utils.py # Utilidades (puentes, vecinos)
+└── players/
+├── base.py # Clase abstracta
+├── random_player.py
+├── greedy_player.py
+├── minimax_player.py
+└── mcts_player.py</p>
+<h2 id="apéndice-b-reproducibilidad">Apéndice B: Reproducibilidad</h2>
+<pre class="hljs"><code><div><span class="hljs-comment"># Instalar dependencias</span>
+pip install -r requirements.txt
+
+<span class="hljs-comment"># Ejecutar torneo</span>
+python -m experiments.run_tournament
+python -m experiments.analyze_results
+
+<span class="hljs-comment"># Experimentos exploratorios</span>
+jupyter notebook notebooks/exploratory.ipynb</div></code></pre>
+
+</body>
+</html>

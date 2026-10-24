@@ -1,0 +1,231 @@
+/* ---------- Reset y tipografía ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #F7F5F0;
+    color: #2B2B2B;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    max-width: 720px;
+    width: 100%;
+}
+
+/* ---------- Cabecera ---------- */
+header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+h1 {
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: 8px;
+    color: #2C5F8D;
+    margin-bottom: 4px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #6B6B6B;
+    letter-spacing: 1px;
+}
+
+/* ---------- Panel de información ---------- */
+.info-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    margin-bottom: 20px;
+    gap: 12px;
+}
+
+.player-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-size: 13px;
+    flex: 1;
+}
+
+.player-info .goal {
+    font-size: 11px;
+    color: #8B8B8B;
+}
+
+.dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-bottom: 2px;
+}
+
+.dot-p1 { background: #2C5F8D; }
+.dot-p2 { background: #D4744A; }
+
+.status {
+    font-size: 15px;
+    font-weight: 600;
+    color: #2C5F8D;
+    padding: 8px 16px;
+    background: #F0F4F8;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 160px;
+    transition: all 0.2s ease;
+}
+
+.status.thinking {
+    color: #A0512F;
+    background: #FBF0E8;
+}
+
+.status.win {
+    color: #2E7D32;
+    background: #E8F5E9;
+}
+
+.status.lose {
+    color: #C62828;
+    background: #FFEBEE;
+}
+
+/* ---------- Tablero ---------- */
+.board-wrapper {
+    position: relative;
+    background: white;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#board {
+    width: 100%;
+    height: auto;
+    max-width: 520px;
+    display: block;
+}
+
+/* ---------- Hexágonos ---------- */
+.hex {
+    stroke: #C9C1B0;
+    stroke-width: 1;
+    transition: fill 0.15s ease, stroke 0.15s ease;
+}
+
+.hex-empty {
+    fill: #E8E2D5;
+}
+
+.hex-hover {
+    fill: #D9D0BC;
+    stroke: #A89E88;
+    stroke-width: 2;
+}
+
+.hex-p1 {
+    fill: #D6E2EE;
+    stroke: #2C5F8D;
+    stroke-width: 2;
+}
+
+.hex-p2 {
+    fill: #F2DCCF;
+    stroke: #D4744A;
+    stroke-width: 2;
+}
+
+/* Fichas dentro de las celdas */
+.piece {
+    transition: r 0.2s ease;
+}
+
+.piece-p1 {
+    fill: #2C5F8D;
+}
+
+.piece-p2 {
+    fill: #D4744A;
+}
+
+/* ---------- Bordes del tablero (objetivos) ---------- */
+.edge {
+    position: absolute;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.edge-top, .edge-bottom {
+    left: 15%;
+    right: 15%;
+    height: 5px;
+    background: #2C5F8D;
+}
+
+.edge-top { top: 8px; }
+.edge-bottom { bottom: 8px; }
+
+.edge-left, .edge-right {
+    top: 15%;
+    bottom: 15%;
+    width: 5px;
+    background: #D4744A;
+}
+
+.edge-left { left: 8px; }
+.edge-right { right: 8px; }
+
+/* ---------- Controles ---------- */
+.controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+button {
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+    background: #2C5F8D;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 2px 6px rgba(44, 95, 141, 0.25);
+}
+
+button:hover {
+    background: #1E4263;
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+/* ---------- Pie de página ---------- */
+footer {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 12px;
+    color: #8B8B8B;
+}
